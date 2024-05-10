@@ -2,7 +2,7 @@
  The [main.py](main.py) Python script is designed to generate simulated financial transactions and insert them into a PostgreSQL database. It's particularly useful for setting up a test environment for Change Data Capture (CDC) with Debezium. The script uses the faker library to create realistic, yet fictitious, transaction data and inserts it into a PostgreSQL table.
 
 ## System Architecture
-![system architecture.png](system%20architecture.png)
+![img.png](img.png)
 
 
 curl -H 'Content-Type: application/json' localhost:8083/connectors --data '{"name": "postgres-fin-connector" , "config":{"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "topic.prefix": "cdc", "database.user": "postgres", "database.dbname": "financial_db", "database.hostname": "postgres", "database.password": "postgres", "plugin.name": "pgoutput","decimal.handling.mode":"string"}}'
