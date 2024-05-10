@@ -26,7 +26,7 @@ def create_table(conn):
     cursor = conn.cursor()
     cursor.execute(
         """
-        CREATE TABLE IF NOT EXISTS transactions_old(
+        CREATE TABLE IF NOT EXISTS transactions(
             transaction_id VARCHAR(255) PRIMARY KEY,
             user_id VARCHAR(255),
             timestamp TIMESTAMP,
@@ -52,7 +52,8 @@ if __name__ == "__main__":
         database = "financial_db",
         user = "postgres",
         password = "postgres",
-        port = 5433
+        port = 5433,
+        connect_timeout=10
     )
     create_table(conn)
     txn = generate_transaction()
@@ -61,7 +62,7 @@ if __name__ == "__main__":
 
     cur.execute(
         """
-        INSERT INTO transactions_old(transaction_id, user_id, timestamp, amount, currency, city, country, merchant_name, payment_method, ip_address, voucher_code, affiliateId)
+        INSERT INTO transactions(transaction_id, user_id, timestamp, amount, currency, city, country, merchant_name, payment_method, ip_address, voucher_code, affiliateId)
         VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (txn["transactionId"], txn["userId"], datetime.fromtimestamp(txn["timestamp"]).strftime('%Y-%m-%d %H:%M:%S'), txn["amount"], txn["currency"], \
               txn["city"], txn["country"], txn["merchantName"], txn["paymentMethod"], txn["ipAddress"], txn["voucherCode"], txn["affiliateId"])
